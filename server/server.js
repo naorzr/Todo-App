@@ -7,7 +7,7 @@ var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
 
 var app = express();
-var PORT = process.env.port || 3000;
+var PORT = process.env.PORT || 3000;
 
 
 
