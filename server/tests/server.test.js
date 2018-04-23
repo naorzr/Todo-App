@@ -192,7 +192,7 @@ describe('PATCH /todos/:id', () => {
 
   it('should\'nt update the todo if it was asked by a different user', (done) => {
     var hexId = todos[0]._id.toHexString();
-    var text = 'This should be the new text';
+    var text = 'This should be the new tex';
 
     request(app)
       .patch(`/todos/${hexId}`)
