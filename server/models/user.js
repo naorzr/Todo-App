@@ -45,7 +45,7 @@ UserSchema.methods.toJSON = function () {
 UserSchema.methods.generateAuthToken = function () {
   var user = this;
   var access = 'auth';
-  var token = jwt.sign({_id: user._id.toHexString(), access},'abc123').toString();
+  var token = jwt.sign({_id: user._id.toHexString(), access},process.env.JWT_SECRET).toString();
 
   user.tokens = user.tokens.concat({access, token});
 
@@ -84,7 +84,8 @@ UserSchema.statics.findByToken = function (token) {
 UserSchema.statics.findByCredantials = function(email, password) {
   var User = this;
 
-  return User.findOne({email}).then((user) => {
+  return User.findOne({"email": email}).then((user) => {
+    
     if (!user) {
       return Promise.reject();
     }
@@ -98,14 +99,14 @@ UserSchema.statics.findByCredantials = function(email, password) {
         }
       })
     });
-  })
+  }).catch((e) => console.log(e))
 };
 
 UserSchema.pre('save',function (next) {
   var user = this;
 
   if (user.isModified('password')) {
-    bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.genSalt(1, (err, salt) => {
       bcrypt.hash(user.password, salt, (err, hash) => {
         user.password = hash;
         next();

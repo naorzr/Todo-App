@@ -5,7 +5,12 @@ mongoose.Promise = global.Promise;
 
 
 mongoose.connect(process.env.MONGODB_URI, (err) => {
-  console.log("Error in connecting to mongodb via mongoose.connect",err);
+  if (err){
+    console.log(`Unable to establish a connection to ${process.env.MONGODB_URI}`);
+  }
+  else {
+    console.log(`Connected to ${process.env.MONGODB_URI}`)
+  }
 });
-console.log(`Connected to ${process.env.MONGODB_URI}`)
+
 module.exports = {mongoose};
